@@ -16,7 +16,7 @@ class ApiUserLogin extends BaseApi {
                 }
             }
 
-            return Promise.reject({ message: 'Invalid user or password' });
+            return Promise.reject({ message: 'Usuario o contraseña incorrectos' });
 
         } catch (e) {
             console.log(e);

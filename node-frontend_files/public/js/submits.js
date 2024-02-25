@@ -2,10 +2,6 @@
 $(document).ready(function () {
     // on click in #check-form-submit
     $(document).on('click', '#check-form-submit', async function () {
-        console.log('clock OK')
-        // event.preventDefault(); 
-        // prevent default
-        // get values from form
         var name = $('#check_form_name').val();
         var url = $('#check_form_url').val();
         var method = $('#check_form_method').val();
@@ -71,8 +67,7 @@ $(document).ready(function () {
 
         const response = await makeRequest({
             method: 'POST',
-            url: 'http://localhost:3001/api/add/checks',
-            headers: { 'Content-Type': 'application/json' },
+            url: '/api/add/checks',
             data: checkData,
             success: function (data) {
                 console.log(data);

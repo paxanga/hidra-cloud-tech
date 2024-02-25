@@ -1,5 +1,5 @@
 // document ready
-$(document).ready(function() {
+$(document).ready(function () {
     $(document).on('click', '#sing-in-submit', async function () {
         var email = $('#login_email').val();
         var password = $('#login_password').val();
@@ -20,8 +20,7 @@ $(document).ready(function() {
 
         const response = await makeRequest({
             method: 'POST',
-            url: 'http://localhost:3001/api/user/login',
-            headers: { 'Content-Type': 'application/json' },
+            url: '/api/user/login',
             data: checkData,
             success: function (data) {
                 _generateToast('Success', 'Success', 'Login success', 'success');

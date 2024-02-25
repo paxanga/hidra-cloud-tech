@@ -11,7 +11,6 @@ $(document).ready(function () {
 });
 
 function _markActive(id) {
-    // foreach ul.nav-sidebar and search for li.nav-item a.nav-link and remove class active
     $('ul.nav-sidebar li.nav-item a.nav-link').removeClass('active');
     // add class active to id
     $(id).addClass('active');
@@ -20,7 +19,6 @@ function _markActive(id) {
 function _loadCheckForm() {
     // _removeContent();
     _markActive('#sidebar-add-check');
-    console.log('load check form');
     $("#content-main").load("../public/content/check_form.ejs");
 }
 

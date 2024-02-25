@@ -70,10 +70,6 @@ services:
       - ./node-backend_files:/app
       - hidra_data:/etc/hidra_exporter/data
       - /var/run/docker.sock:/var/run/docker.sock
-    ports:
-      - "3001:3001"
-    expose:
-      - 3001
     links:
       - prometheus
   node-frontend:

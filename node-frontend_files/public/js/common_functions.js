@@ -7,7 +7,7 @@ function _sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-function _generateToast(title, subtitle, body, type, delay=5000) {
+function _generateToast(title, subtitle, body, type, delay = 5000) {
     if (delay == 0) {
         autohide = false
     } else {
@@ -28,36 +28,20 @@ function _generateToast(title, subtitle, body, type, delay=5000) {
 }
 
 function makeRequest(options) {
-    var { method, url, headers, data, success, error } = options;
+    var { method, url, data, success, error } = options;
 
     method = method.toUpperCase();
 
-    if (method === 'GET') {
-        return $.ajax({
-            type: method,
-            url: url,
-            headers: headers,
-            success: function (data) {
-                success(data);
-            },
-            error: function (data) {
-                error(data);
-            }
-        });
-    }
-
-    if (method === 'POST') {
-        return $.ajax({
-            type: method,
-            url: url,
-            headers: headers,
-            data: JSON.stringify(data),
-            success: function (data) {
-                success(data);
-            },
-            error: function (data) {
-                error(data);
-            }
-        });
-    }
+    return $.ajax({
+        type: method,
+        url: url,
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (data) {
+            success(data);
+        },
+        error: function (data) {
+            error(data);
+        }
+    });
 }
