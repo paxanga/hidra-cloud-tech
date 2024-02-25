@@ -8,8 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY app_back.js ./
 
-# Install app dependencies
-RUN npm install
+# Install app dependencies in /app
+RUN npm ci --omit=dev
 
 # Copy the rest of the application code to the working directory
 COPY . .

@@ -1,4 +1,4 @@
-1. mkdir data && touch .env
+1. mkdir data && mkdir data/hidra_data && mkdir data/prometheus_data && mkdir data/grafana_data && touch .env
 2. add in .env HIDRA_AUTH_BASIC_PASSWORD=xxxxx and USERS_AND_PASSWORDS={"email@email.es":"xxxxx"}
 
 ```
@@ -17,3 +17,4 @@ groups # check if group docker exist
 sudo usermod -aG docker YOUR_USERNAME
 # install docker compose
 sudo apt install docker-compose
+```
