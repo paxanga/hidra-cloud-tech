@@ -48,4 +48,4 @@ Thumbs.db
 
 # Hidra
 .env
-data/
+data/*
