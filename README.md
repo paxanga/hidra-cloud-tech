@@ -1,29 +1,19 @@
-# README #
+1. mkdir data && touch .env
+2. add in .env HIDRA_AUTH_BASIC_PASSWORD=xxxxx and USERS_AND_PASSWORDS={"email@email.es":"xxxxx"}
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
-### What is this repository for? ###
-
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
-
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+```
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install docker-ce
+# check docker service status
+sudo systemctl status docker
+# execute Docker Command Without Sudo
+sudo usermod -aG docker ${USER}
+su - ${USER} # type your password
+groups # check if group docker exist
+sudo usermod -aG docker YOUR_USERNAME
+# install docker compose
+sudo apt install docker-compose
