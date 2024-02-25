@@ -1,15 +1,16 @@
 # Use an official Node.js runtime as a base image
 FROM node:20
 
+WORKDIR /install
+COPY package*.json ./
+
+RUN npm install --verbose
+ENV NODE_PATH=/install/node_modules
+
 # Set the working directory to /app
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
 COPY app_back.js ./
-
-# Install app dependencies in /app
-RUN npm ci --omit=dev
 
 # Copy the rest of the application code to the working directory
 COPY . .
