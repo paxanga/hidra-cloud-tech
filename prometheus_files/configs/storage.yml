@@ -1,0 +1,5 @@
+# storage.yml
+storage:
+  tsdb:
+    path: ./
+    retention_time: 0s

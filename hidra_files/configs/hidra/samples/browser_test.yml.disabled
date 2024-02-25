@@ -1,0 +1,19 @@
+description: "This is a sample to test the browser plugin"
+tags:
+  tenant: "hidra"
+interval: "1m"
+timeout: "10s"
+steps:
+  - plugin: browser
+    action: navigateTo
+    parameters:
+      url: https://hidra.cloud/
+
+  - action: urlShouldBe
+    parameters:
+      url: https://hidra.cloud/
+
+  - action: setViewPort
+    parameters:
+      width: 400
+      height: 711

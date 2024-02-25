@@ -1,0 +1,1193 @@
+{
+  "dashboard": {
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": false,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": null,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "<%= datasourceUID %>"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 0
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "none",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.5",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "expr": "count(hidra_sample_status)",
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Total",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "<%= datasourceUID %>"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "left",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "filterable": true,
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "URL"
+              },
+              "properties": [
+                {
+                  "id": "custom.width"
+                },
+                {
+                  "id": "links",
+                  "value": [
+                    {
+                      "targetBlank": true,
+                      "title": "DETALLES",
+                      "url": "http://localhost:3002/one_dashboard?sample=${__data.fields.sample_name}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Respuesta"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "gradient",
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "transparent",
+                        "value": null
+                      },
+                      {
+                        "color": "green",
+                        "value": 200
+                      },
+                      {
+                        "color": "yellow",
+                        "value": 300
+                      },
+                      {
+                        "color": "red",
+                        "value": 500
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "custom.width",
+                  "value": 78
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Estado"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "gradient",
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "0": {
+                          "color": "red",
+                          "index": 1,
+                          "text": "DOWN"
+                        },
+                        "1": {
+                          "color": "green",
+                          "index": 0,
+                          "text": "UP"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.width",
+                  "value": 75
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "TLS Version"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "gradient",
+                    "type": "color-background"
+                  }
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "1": {
+                          "color": "red",
+                          "index": 0,
+                          "text": "TLS V.1"
+                        },
+                        "2": {
+                          "color": "yellow",
+                          "index": 1,
+                          "text": "TLS V.2"
+                        },
+                        "3": {
+                          "color": "green",
+                          "index": 2,
+                          "text": "TLS V.3"
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.width",
+                  "value": 75
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Cert SSL dias"
+              },
+              "properties": [
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "transparent",
+                        "value": null
+                      },
+                      {
+                        "color": "red",
+                        "value": 0
+                      },
+                      {
+                        "color": "orange",
+                        "value": 1
+                      },
+                      {
+                        "color": "yellow",
+                        "value": 7
+                      },
+                      {
+                        "color": "green",
+                        "value": 24
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "gauge"
+                  }
+                },
+                {
+                  "id": "min",
+                  "value": 0
+                },
+                {
+                  "id": "max",
+                  "value": 365
+                },
+                {
+                  "id": "decimals",
+                  "value": 0
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Tiempo de respuesta"
+              },
+              "properties": [
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "yellow",
+                        "value": 0.8
+                      },
+                      {
+                        "color": "red",
+                        "value": 2
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "gauge"
+                  }
+                },
+                {
+                  "id": "decimals",
+                  "value": 1
+                },
+                {
+                  "id": "max",
+                  "value": 3
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Tiempo de respuesta DNS"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "mode": "basic",
+                    "type": "gauge"
+                  }
+                },
+                {
+                  "id": "thresholds",
+                  "value": {
+                    "mode": "absolute",
+                    "steps": [
+                      {
+                        "color": "green",
+                        "value": null
+                      },
+                      {
+                        "color": "#EAB839",
+                        "value": 0.8
+                      },
+                      {
+                        "color": "red",
+                        "value": 2
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "decimals",
+                  "value": 1
+                },
+                {
+                  "id": "max",
+                  "value": 3
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Método"
+              },
+              "properties": [
+                {
+                  "id": "custom.cellOptions",
+                  "value": {
+                    "type": "color-text"
+                  }
+                },
+                {
+                  "id": "mappings",
+                  "value": [
+                    {
+                      "options": {
+                        "GET": {
+                          "color": "orange",
+                          "index": 0
+                        },
+                        "POST": {
+                          "color": "purple",
+                          "index": 1
+                        }
+                      },
+                      "type": "value"
+                    }
+                  ]
+                },
+                {
+                  "id": "custom.width",
+                  "value": 75
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "sample_name"
+              },
+              "properties": [
+                {
+                  "id": "custom.hidden",
+                  "value": true
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 15,
+          "w": 20,
+          "x": 4,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true,
+          "sortBy": [
+            {
+              "desc": false,
+              "displayName": "Estado"
+            }
+          ]
+        },
+        "pluginVersion": "10.0.5",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "expr": "hidra_sample_status{job=\"hidra-exporter\"}",
+            "format": "table",
+            "instant": true,
+            "range": true,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "expr": "(hidra_tls_certificate_not_after{job=\"hidra-exporter\"}- time()) / 3600 / 24",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "range": true,
+            "refId": "B"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "expr": "hidra_http_response_status_code{job=\"hidra-exporter\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "range": true,
+            "refId": "C"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "expr": "avg_over_time(hidra_http_response_time{job=\"hidra-exporter\"}[1m])",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "range": true,
+            "refId": "D"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "expr": "hidra_tls_certificate_version{job=\"hidra-exporter\"}",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "range": true,
+            "refId": "E"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "expr": "avg_over_time(hidra_http_response_dns_time{job=\"hidra-exporter\"}[1m])",
+            "format": "table",
+            "hide": false,
+            "instant": true,
+            "range": true,
+            "refId": "F"
+          }
+        ],
+        "title": "HTTP Estado",
+        "transformations": [
+          {
+            "id": "joinByField",
+            "options": {
+              "byField": "sample_name",
+              "mode": "inner"
+            }
+          },
+          {
+            "id": "organize",
+            "options": {
+              "excludeByName": {
+                "Time 1": true,
+                "Time 2": true,
+                "Time 3": true,
+                "Time 4": true,
+                "Time 5": true,
+                "Time 6": true,
+                "__name__ 1": true,
+                "__name__ 2": true,
+                "__name__ 3": true,
+                "description 2": true,
+                "description 3": true,
+                "description 4": true,
+                "description 5": true,
+                "description 6": true,
+                "host": true,
+                "host 1": true,
+                "host 2": true,
+                "instance 1": true,
+                "instance 2": true,
+                "instance 3": true,
+                "instance 4": true,
+                "instance 5": true,
+                "instance 6": true,
+                "job 1": true,
+                "job 2": true,
+                "job 3": true,
+                "job 4": true,
+                "job 5": true,
+                "job 6": true,
+                "method 2": true,
+                "method 3": true,
+                "plugins 1": true,
+                "plugins 2": true,
+                "plugins 3": true,
+                "plugins 4": true,
+                "plugins 5": true,
+                "plugins 6": true,
+                "sample_name": false,
+                "serial_number": true,
+                "serial_number 1": true,
+                "serial_number 2": true,
+                "subject": true,
+                "subject 1": true,
+                "subject 2": true,
+                "tenant 1": true,
+                "tenant 2": true,
+                "tenant 3": true,
+                "tenant 4": true,
+                "tenant 5": true,
+                "tenant 6": true,
+                "url 2": true,
+                "url 3": true
+              },
+              "indexByName": {
+                "Time 1": 12,
+                "Time 2": 16,
+                "Time 3": 22,
+                "Time 4": 29,
+                "Time 5": 37,
+                "Time 6": 52,
+                "Value #A": 1,
+                "Value #B": 5,
+                "Value #C": 2,
+                "Value #D": 6,
+                "Value #E": 3,
+                "Value #F": 7,
+                "__name__ 1": 13,
+                "__name__ 2": 23,
+                "__name__ 3": 48,
+                "description 1": 4,
+                "description 2": 17,
+                "description 3": 24,
+                "description 4": 30,
+                "description 5": 38,
+                "description 6": 53,
+                "host 1": 45,
+                "host 2": 49,
+                "instance 1": 14,
+                "instance 2": 18,
+                "instance 3": 25,
+                "instance 4": 31,
+                "instance 5": 39,
+                "instance 6": 54,
+                "job 1": 15,
+                "job 2": 19,
+                "job 3": 26,
+                "job 4": 32,
+                "job 5": 40,
+                "job 6": 55,
+                "method 1": 8,
+                "method 2": 33,
+                "method 3": 41,
+                "plugins 1": 10,
+                "plugins 2": 20,
+                "plugins 3": 27,
+                "plugins 4": 34,
+                "plugins 5": 42,
+                "plugins 6": 56,
+                "sample_name": 11,
+                "serial_number 1": 46,
+                "serial_number 2": 50,
+                "subject 1": 47,
+                "subject 2": 51,
+                "tenant 1": 9,
+                "tenant 2": 21,
+                "tenant 3": 28,
+                "tenant 4": 35,
+                "tenant 5": 43,
+                "tenant 6": 57,
+                "url 1": 0,
+                "url 2": 36,
+                "url 3": 44
+              },
+              "renameByName": {
+                "Value #A": "Estado",
+                "Value #B": "Cert SSL dias",
+                "Value #C": "Respuesta",
+                "Value #D": "Tiempo de respuesta",
+                "Value #E": "TLS Version",
+                "Value #F": "Tiempo de respuesta DNS",
+                "description 1": "Descripción",
+                "method 1": "Método",
+                "plugins 1": "",
+                "tenant 1": "",
+                "url 1": "URL"
+              }
+            }
+          }
+        ],
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "<%= datasourceUID %>"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 2,
+          "x": 0,
+          "y": 4
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.5",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "count(hidra_sample_status == 1)",
+            "format": "time_series",
+            "instant": false,
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Success",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "<%= datasourceUID %>"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "red",
+              "mode": "fixed"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "match": "null",
+                  "result": {
+                    "index": 0,
+                    "text": "0"
+                  }
+                },
+                "type": "special"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 2,
+          "x": 2,
+          "y": 4
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "text": {},
+          "textMode": "auto"
+        },
+        "pluginVersion": "10.0.5",
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "count(hidra_sample_status == 0)",
+            "hide": false,
+            "format": "time_series",
+            "instant": false,
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "Fail",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "<%= datasourceUID %>"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": []
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "SUCCESS"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "green",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "FAIL"
+              },
+              "properties": [
+                {
+                  "id": "color",
+                  "value": {
+                    "fixedColor": "red",
+                    "mode": "fixed"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 4,
+          "x": 0,
+          "y": 8
+        },
+        "id": 6,
+        "options": {
+          "displayLabels": [
+            "value",
+            "percent"
+          ],
+          "legend": {
+            "displayMode": "table",
+            "placement": "bottom",
+            "showLegend": true,
+            "values": [
+              "value"
+            ]
+          },
+          "pieType": "donut",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "count(hidra_sample_status{job=\"hidra-exporter\"} == 1)",
+            "instant": true,
+            "legendFormat": "SUCCESS",
+            "range": false,
+            "refId": "A"
+          },
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "count(hidra_sample_status{job=\"hidra-exporter\"} == 0)",
+            "hide": false,
+            "instant": true,
+            "legendFormat": "FAIL",
+            "range": false,
+            "refId": "B"
+          }
+        ],
+        "title": "Proporción de estado",
+        "type": "piechart"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "<%= datasourceUID %>"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 5,
+          "w": 24,
+          "x": 0,
+          "y": 15
+        },
+        "id": 2,
+        "options": {
+          "legend": {
+            "calcs": [
+              "min",
+              "max",
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true
+          },
+          "timezone": [
+            "Europe/Madrid"
+          ],
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum(hidra_http_response_time{job=\"hidra-exporter\"}) by (url)",
+            "instant": false,
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "HTTP Tiempo de respuesta",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "prometheus",
+          "uid": "<%= datasourceUID %>"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "axisCenteredZero": false,
+              "axisColorMode": "text",
+              "axisLabel": "",
+              "axisPlacement": "auto",
+              "barAlignment": 0,
+              "drawStyle": "line",
+              "fillOpacity": 0,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineInterpolation": "linear",
+              "lineWidth": 1,
+              "pointSize": 5,
+              "scaleDistribution": {
+                "type": "linear"
+              },
+              "showPoints": "never",
+              "spanNulls": false,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              },
+              "thresholdsStyle": {
+                "mode": "off"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 24,
+          "x": 0,
+          "y": 20
+        },
+        "id": 7,
+        "options": {
+          "legend": {
+            "calcs": [
+              "min",
+              "max",
+              "mean"
+            ],
+            "displayMode": "table",
+            "placement": "right",
+            "showLegend": true
+          },
+          "timezone": [
+            "Europe/Madrid"
+          ],
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "prometheus",
+              "uid": "<%= datasourceUID %>"
+            },
+            "editorMode": "code",
+            "exemplar": false,
+            "expr": "sum(hidra_http_response_dns_time{job=\"hidra-exporter\"}) by (url)",
+            "instant": false,
+            "range": true,
+            "refId": "A"
+          }
+        ],
+        "title": "DNS Tiempo de respuesta",
+        "type": "timeseries"
+      }
+    ],
+    "refresh": "10s",
+    "schemaVersion": 38,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "",
+    "title": "principal_dashboard",
+    "uid": "principal_dashboard",
+    "version": 29,
+    "weekStart": ""
+  }
+}

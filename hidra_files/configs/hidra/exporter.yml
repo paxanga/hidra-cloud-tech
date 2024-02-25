@@ -1,0 +1,44 @@
+log_level: debug
+http_server:
+  listen_address: :19090
+# is the path to the directory where you're storing samples
+samples_path: /etc/hidra_exporter/data
+scheduler:
+  # is the interval to refresh the samples from the samples_path
+  refresh_samples_interval: 60s
+  # is the interval to check if a sample should be rescheduled
+  enqueue_samples_interval: 5s
+  # is the interval to run garbage collection
+  gc_interval: 5m
+basic_auth:
+  # is the flag to enable basic auth
+  enabled: true
+  # is the username to access the exporter
+  username: admin
+  # is the password to access the exporter
+  password: ${HIDRA_AUTH_BASIC_PASSWORD}
+worker:
+  # is the amount of workers that will run samples in parallel
+  parallel_jobs: 16
+  # max queue size is the maximum number of samples that can be queued
+  max_queue_size: 1000
+  # sleep between jobs is the time that a worker will sleep between jobs. This is useful if your system is busy and you want to give it a break
+  sleep_between_jobs: 1s
+  # disable bg tasks is the flag to disable background tasks. This is useful if you want to run the exporter in a single process
+  disable_bg_tasks: false
+report:
+  enabled: true
+  # s3:
+  #   enabled: true
+  #   bucket: hidra-reports
+  #   region: ""
+  #   access_key_id: "hidratest"
+  #   secret_access_key: "hidratest"
+  #   endpoint: "minio:9000"
+  #   use_ssl: false
+  # callback:
+  #   enabled: true
+  #   url: http://localhost:19091
+usage:
+  # Enabled is the flag to enable the usage collector
+  enabled: true

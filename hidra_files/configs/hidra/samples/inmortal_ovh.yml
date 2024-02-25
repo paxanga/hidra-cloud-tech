@@ -1,0 +1,22 @@
+description: "This is a sample to test the HTTP plugin"
+tags:
+  tenant: "hidra"
+interval: "1m"
+timeout: "10s"
+retry: 3
+steps:
+  - plugin: http
+    action: followRedirects
+    parameters: {}
+  - plugin: http
+    action: request
+    parameters:
+      url: https://inmortal.ovh/
+  - plugin: http
+    action: statusCodeShouldBe
+    parameters:
+      statusCode: 403
+  - plugin: icmp
+    action: traceroute
+    parameters:
+      hostname: inmortal.ovh

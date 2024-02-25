@@ -1,0 +1,113 @@
+version: "3.9"
+
+services:
+  hidra:
+    build:
+      context: ./hidra_files
+      dockerfile: ./Dockerfile
+    command: exporter /etc/hidra_exporter/exporter.yml
+    environment:
+      - OTEL_LOG_LEVEL=true
+      - DEBUG=false
+      - HIDRA_AUTH_BASIC_PASSWORD=${HIDRA_AUTH_BASIC_PASSWORD}
+    working_dir: /app
+    user: root
+    volumes:
+      - ./common_files:/app
+      - ./hidra_files/configs/hidra:/etc/hidra_exporter
+      - hidra_data:/etc/hidra_exporter/data
+    ports:
+      - "19090:19090"
+    expose:
+      - 19090
+  prometheus:
+    build:
+      context: ./prometheus_files
+      dockerfile: ./Dockerfile
+      args:
+        HIDRA_AUTH_BASIC_PASSWORD: ${HIDRA_AUTH_BASIC_PASSWORD}
+    command: 
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --web.config.file=/etc/prometheus/web.yml
+      - --storage.tsdb.path=/etc/prometheus/storage.yml
+    user: root
+    volumes:
+      - prometheus_data:/prometheus
+    links:
+      - hidra
+    ports:
+      - "9090:9090"
+    expose:
+      - 9090
+  grafana:
+    image: grafana/grafana:10.0.5
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${HIDRA_AUTH_BASIC_PASSWORD}
+      - HIDRA_AUTH_BASIC_PASSWORD=${HIDRA_AUTH_BASIC_PASSWORD}
+      - GF_AUTH_API_KEY_ENABLED=true
+      - GF_AUTH_API_KEY=${HIDRA_AUTH_BASIC_PASSWORD}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana_files/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./grafana_files/grafana.ini:/etc/grafana/grafana.ini
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    links:
+      - prometheus
+  node-backend:
+    build:
+      context: ./node-backend_files
+      dockerfile: ./Dockerfile
+    command: npm start
+    environment:
+      - HIDRA_AUTH_BASIC_PASSWORD=${HIDRA_AUTH_BASIC_PASSWORD}
+      - grafanaApiPassword=${HIDRA_AUTH_BASIC_PASSWORD}
+      - users_and_passwords=${USERS_AND_PASSWORDS}
+    volumes:
+      - ./node-backend_files:/app
+      - hidra_data:/etc/hidra_exporter/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "3001:3001"
+    expose:
+      - 3001
+    links:
+      - prometheus
+  node-frontend:
+    build:
+      context: ./node-frontend_files
+      dockerfile: ./Dockerfile
+    command: npm start
+    environment:
+      - HIDRA_AUTH_BASIC_PASSWORD=${HIDRA_AUTH_BASIC_PASSWORD}
+    volumes:
+      - ./node-frontend_files:/app
+    ports:
+      - "3002:3002"
+    expose:
+      - 3002
+    links:
+      - prometheus
+      - node-backend
+volumes:
+  prometheus_data:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./data/prometheus_data"
+  grafana_data: 
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./data/grafana_data"
+  hidra_data:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./data/hidra_data"

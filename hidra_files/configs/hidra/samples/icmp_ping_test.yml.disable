@@ -1,0 +1,11 @@
+description: "This is a sample to test the ICMP Ping plugin"
+tags:
+  tenant: "hidra"
+interval: "1m"
+timeout: "10s"
+retry: 3
+steps:
+  - plugin: icmp
+    action: ping
+    parameters:
+      hostname: inmortal.ovh
