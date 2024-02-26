@@ -7,10 +7,9 @@ const config = require('./src/util/config');
 const bodyParser = require('body-parser');
 const moment = require('moment');
 const ApiAddChecks = require('./src/api/checks/add');
-const ApiGetPassingFailedScenarios = require('./src/api/actual_status/passingFailedScenarios');
-const ApiGetChecksTable = require('./src/api/actual_status/loadChecksTable');
 const ApiGetloadPrincipalPanel = require('./src/api/actual_status/loadPrincipalPanel');
 const ApiUserLogin = require('./src/api/user/login');
+const ApiUserGetToken = require('./src/api/user/getToken');
 class App {
 
     constructor() {
@@ -62,10 +61,9 @@ class App {
 
     initializeMethods() {
         new ApiAddChecks(this);
-        // new ApiGetPassingFailedScenarios(this);
-        // new ApiGetChecksTable(this);
         new ApiGetloadPrincipalPanel(this);
         new ApiUserLogin(this);
+        new ApiUserGetToken(this);
     }
 
     async startWebServer() {

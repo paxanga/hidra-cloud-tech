@@ -47,10 +47,12 @@ services:
       - HIDRA_AUTH_BASIC_PASSWORD=${HIDRA_AUTH_BASIC_PASSWORD}
       - GF_AUTH_API_KEY_ENABLED=true
       - GF_AUTH_API_KEY=${HIDRA_AUTH_BASIC_PASSWORD}
+      - GF_SECURITY_API_KEY=${GRAFANA_API_KEY}
     volumes:
       - grafana_data:/var/lib/grafana
       - ./grafana_files/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
       - ./grafana_files/grafana.ini:/etc/grafana/grafana.ini
+      - certs:/etc/hidra_exporter/certs
     ports:
       - "3000:3000"
     expose:
@@ -70,6 +72,7 @@ services:
       - ./node-backend_files:/app
       - hidra_data:/etc/hidra_exporter/data
       - /var/run/docker.sock:/var/run/docker.sock
+      - certs:/etc/hidra_exporter/certs
     links:
       - prometheus
   node-frontend:
@@ -107,3 +110,9 @@ volumes:
       type: "none"
       o: "bind"
       device: "./data/hidra_data"
+  certs:
+    driver: local
+    driver_opts:
+      type: "none"
+      o: "bind"
+      device: "./data/certs"

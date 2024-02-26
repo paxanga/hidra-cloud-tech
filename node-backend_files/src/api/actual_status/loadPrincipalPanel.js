@@ -24,7 +24,7 @@ class ApiGetloadPrincipalPanel extends BaseApi {
                 hidra_dashboard = hidra_dashboard[0]
             }
 
-            return Promise.resolve(principal_dashboard.url);
+            return Promise.resolve({ "url": principal_dashboard.url, "token": this.grafanaAuth.generateToken() });
         } catch (e) {
             console.log(e);
             return Promise.reject(e);

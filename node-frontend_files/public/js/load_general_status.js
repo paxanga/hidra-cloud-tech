@@ -9,7 +9,7 @@ async function _loadPrincipalPanel() {
         url: '/api/get/loadPrincipalPanel',
         data: null,
         success: function (data) {
-            var iframe = `<iframe src="http://localhost:3000${data}?orgId=1&refresh=30s&panelId=1&kiosk" frameborder="0" style="width: 100%; height: 930px;"></iframe>`;
+            var iframe = `<iframe src="http://localhost:3000${data.url}?orgId=1&refresh=30s&panelId=1&kiosk&auth_token=${data.token}" frameborder="0" style="width: 100%; height: 930px;"></iframe>`;
             $("#principal_dashboard").html(iframe);
         },
         error: function (data) {

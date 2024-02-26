@@ -3,7 +3,7 @@
 const BaseApi = require('../base_api');
 const Config = require('../../util/config');
 
-class ApiUserLogin extends BaseApi {
+class ApiUserGetToken extends BaseApi {
 
     async handleRequest(req) {
         try {
@@ -18,8 +18,8 @@ class ApiUserLogin extends BaseApi {
                 .then(() => {
                     var usernames = JSON.parse(Config.usernames);
 
-                    if (req.body.email in usernames && req.body.password === usernames[req.body.email]) {
-                        return { token: req.body.email };
+                    if (req.body.username in usernames) {
+                        return Promise.resolve({ "token": this.grafanaAuth.generateToken() });
                     } else {
                         return Promise.reject('Usuario o contraseña incorrectos');
                     }
@@ -41,8 +41,8 @@ class ApiUserLogin extends BaseApi {
     }
 
     getRoute() {
-        return "/api/user/login";
+        return "/api/user/getToken";
     }
 }
 
-module.exports = ApiUserLogin;
+module.exports = ApiUserGetToken;

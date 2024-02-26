@@ -2,6 +2,7 @@ const Config = require('../util/config');
 const fs = require('fs');
 const ejs = require('ejs');
 const HttpRequest = require('../modules/HttpRequest');
+const grafanaAuth = require('../modules/grafanaAuth');
 const Docker = require('dockerode');
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
 
@@ -13,6 +14,7 @@ class BaseApi {
         this.app = app;
         this.app.express[this.getMethod()](this.getRoute(), this.prehandle.bind(this));
         this.HttpRequest = new HttpRequest();
+        this.grafanaAuth = new grafanaAuth();
     }
 
     verifyRequest(req) {
@@ -196,6 +198,48 @@ class BaseApi {
             return Promise.reject(error);
         }
     }
+
+    createViewerUser() {
+        try {
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/admin/users`,
+                'POST',
+                JSON.stringify({
+                    'name': 'viewer',
+                    'email': 'viewer@localhost',
+                    'login': 'viewer',
+                    'password': Config.grafana.adminPassword
+                }),
+                {
+                    'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            );
+        } catch (error) {
+            console.error('Error creating viewer user:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    checkIfViewerUserExists() {
+        try {
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/users/lookup?loginOrEmail=viewer@localhost`,
+                'GET',
+                null,
+                {
+                    'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
+                    'accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            );
+        } catch (error) {
+            console.error('Error checking if user exists:', error);
+            return Promise.reject(error);
+        }
+    }
+
 
     CalculateBasicAuthHeader(username, password) {
         return 'Basic ' + Buffer.from(username + ':' + password).toString('base64');

@@ -88,6 +88,22 @@ app.post('/api/add/checks', async (req, res) => {
   }
 });
 
+app.post('/api/user/getToken', async (req, res) => {
+  try {
+    http_req.makeRequest(
+      "http://node-backend:3001/api/user/getToken",
+      'POST',
+      req.body
+    ).then((response) => {
+      res.send(response);
+    }).catch((error) => {
+      res.status(400).send(error.response.data);
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Configurar la carpeta pública para servir archivos estáticos
@@ -100,6 +116,9 @@ app.get('/socket.io.js', (req, res) => {
 
 // Ruta de inicio de sesión
 app.get('/login', (req, res) => {
+  if (req.cookies.token) {
+    res.redirect('/');
+  }
   res.render('login', { company_name: 'Cloud-Tech', login: true });
 });
 
