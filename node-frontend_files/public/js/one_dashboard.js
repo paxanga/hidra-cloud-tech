@@ -7,13 +7,14 @@ async function _loadOneDashboardStatus() {
     const sample = urlParams.get('sample');
 
     const username = getCookie('token');
+    var currentHostname = window.location.hostname;
 
     const response = await makeRequest({
         method: 'POST',
         url: '/api/user/getToken',
         data: { "username": username },
         success: function (data) {
-            var iframe = `<iframe src="http://localhost:3000/d/hidra_dashboard/hidra-dashboard?orgId=1&var-sample=${sample}&var-job=hidra-exporter&kiosk&auth_token=${data.token}" frameborder="0" style="width: 100%; height: 930px;"></iframe>`;
+            var iframe = `<iframe src="http://${currentHostname}:3000/d/hidra_dashboard/hidra-dashboard?orgId=1&var-sample=${sample}&var-job=hidra-exporter&kiosk&auth_token=${data.token}" frameborder="0" style="width: 100%; height: 930px;"></iframe>`;
             $("#principal_dashboard").html(iframe);
         },
         error: function (data) {
@@ -21,6 +22,4 @@ async function _loadOneDashboardStatus() {
             _generateToast('Error, no se ha podido obtener el token', '', data.responseJSON.message, 'danger');
         }
     });
-
-
 }
