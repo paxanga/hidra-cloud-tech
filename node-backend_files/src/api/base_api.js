@@ -166,6 +166,7 @@ class BaseApi {
                     datasourceUID: datasource.uid,
                     name: name,
                     dashboardUID: name.substring(0, 35),
+                    actualHost: Config.http.host,
                 };
                 return new Promise((resolve, reject) => {
                     ejs.renderFile(__dirname + '/../dashboards/' + type + '.json', variables, {}, function (err, str) {

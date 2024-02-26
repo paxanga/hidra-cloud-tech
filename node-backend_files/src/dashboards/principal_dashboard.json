@@ -136,7 +136,7 @@
                     {
                       "targetBlank": true,
                       "title": "DETALLES",
-                      "url": "http://localhost:3002/one_dashboard?sample=${__data.fields.sample_name}"
+                      "url": "http://<%= actualHost %>:3002/one_dashboard?sample=${__data.fields.sample_name}"
                     }
                   ]
                 }

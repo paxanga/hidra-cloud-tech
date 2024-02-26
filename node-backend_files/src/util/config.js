@@ -23,6 +23,7 @@ module.exports = {
     }),
     'http': {
         'port': 3001,
+        'host': '1.1.1.1'
     },
     'grafana': {
         'url': 'http://grafana',
