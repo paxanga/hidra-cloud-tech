@@ -72,10 +72,26 @@ app.get('/api/get/loadPrincipalPanel', async (req, res) => {
   }
 });
 
-app.post('/api/add/checks', async (req, res) => {
+app.post('/api/checks/add', async (req, res) => {
   try {
     http_req.makeRequest(
-      "http://node-backend:3001/api/add/checks",
+      "http://node-backend:3001/api/checks/add",
+      'POST',
+      req.body
+    ).then((response) => {
+      res.send(response);
+    }).catch((error) => {
+      res.status(400).send(error.response.data);
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
+
+app.post('/api/checks/edit', async (req, res) => {
+  try {
+    http_req.makeRequest(
+      "http://node-backend:3001/api/checks/edit",
       'POST',
       req.body
     ).then((response) => {
@@ -92,6 +108,38 @@ app.post('/api/user/getToken', async (req, res) => {
   try {
     http_req.makeRequest(
       "http://node-backend:3001/api/user/getToken",
+      'POST',
+      req.body
+    ).then((response) => {
+      res.send(response);
+    }).catch((error) => {
+      res.status(400).send(error.response.data);
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
+
+app.get('/api/checks/checksTable', async (req, res) => {
+  try {
+    http_req.makeRequest(
+      "http://node-backend:3001/api/checks/checksTable",
+      'GET',
+      null
+    ).then((response) => {
+      res.send(response);
+    }).catch((error) => {
+      res.status(400).send(error.response.data);
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
+
+app.post('/api/checks/delete', async (req, res) => {
+  try {
+    http_req.makeRequest(
+      "http://node-backend:3001/api/checks/delete",
       'POST',
       req.body
     ).then((response) => {

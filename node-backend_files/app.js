@@ -10,6 +10,10 @@ const ApiAddChecks = require('./src/api/checks/add');
 const ApiGetloadPrincipalPanel = require('./src/api/actual_status/loadPrincipalPanel');
 const ApiUserLogin = require('./src/api/user/login');
 const ApiUserGetToken = require('./src/api/user/getToken');
+const ApiGetChecksTable = require('./src/api/checks/checksTable');
+const ApiDeleteCheck = require('./src/api/checks/delete');
+const ApiEditCheck = require('./src/api/checks/edit');
+
 class App {
 
     constructor() {
@@ -64,6 +68,9 @@ class App {
         new ApiGetloadPrincipalPanel(this);
         new ApiUserLogin(this);
         new ApiUserGetToken(this);
+        new ApiGetChecksTable(this);
+        new ApiDeleteCheck(this);
+        new ApiEditCheck(this);
     }
 
     async startWebServer() {

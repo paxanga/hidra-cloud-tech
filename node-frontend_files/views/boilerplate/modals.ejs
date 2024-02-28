@@ -1,0 +1,23 @@
+<div class="modal fade show" id="deleteCheckModal" style="display: none; padding-right: 15px;" aria-modal="true"
+    role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar dominio <span class="text-danger deleteCheckModal_domain">dominio.com</span></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>El servidor dejará de monitorizar este dominio de inmediato, pero los datos continuarán apareciendo hasta un total de 6 horas.</p>
+                <p>Atención estás a punto de eliminar el dominio <strong class="text-danger deleteCheckModal_domain">dominio.com</strong> ¿Estás
+                    seguro de que quieres continuar?</p>
+            </div>
+            <input type="hidden" class="deleteCheckModal_domain_file" value="0">
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" onclick="deletePermanentDomain()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>

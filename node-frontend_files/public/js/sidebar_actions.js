@@ -7,6 +7,9 @@ $(document).ready(function () {
     $(document).on('click', '#sidebar-home', function () {
         _loadDashboard();
     });
+    $(document).on('click', '#sidebar-domain-list', function () {
+        _loadDomainList();
+    });
 
 });
 
@@ -18,12 +21,14 @@ function _markActive(id) {
 
 function _loadCheckForm() {
     // _removeContent();
+    _showPreloader(1);
     _markActive('#sidebar-add-check');
     $("#content-main").load("../public/content/check_form.ejs");
 }
 
 async function _loadDashboard() {
     // _removeContent();
+    _showPreloader(1);
     _markActive('#sidebar-home');
     $("#content-main").load("../public/content/dashboard.ejs");
     await _loadGeneralStats();
@@ -31,6 +36,7 @@ async function _loadDashboard() {
 
 async function _loadOneDashboard() {
     // _removeContent();
+    _showPreloader(2);
     _markActive('#sidebar-home');
     $("#content-main").load("../public/content/dashboard.ejs")
     // wait until #principal_dashboard exists
@@ -38,4 +44,11 @@ async function _loadOneDashboard() {
         await new Promise(resolve => setTimeout(resolve, 1000));
     }
     await _loadOneDashboardStatus();
+}
+
+async function _loadDomainList() {
+    _showPreloader(2);
+    _markActive('#sidebar-domain-list');
+    $("#content-main").load("../public/content/domains.ejs");
+    await _loadChecksTable();
 }

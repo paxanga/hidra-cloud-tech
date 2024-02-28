@@ -43,6 +43,8 @@
             </div>
           </footer>
   </div>
+  <!-- include extra items -->
+  <%- include('./boilerplate/modals.ejs') %>
   <!-- ./wrapper -->
 
   <!-- REQUIRED SCRIPTS -->
@@ -72,13 +74,14 @@
 
 
 
-  <!-- jsGrid
-  <script src="public/adminlte/plugins/jsgrid/jsgrid.min.js"></script> -->
+  <!-- jsGrid  -->
+  <script src="public/adminlte/plugins/jsgrid/jsgrid.min.js"></script>
   <script src="public/js/load_general_status.js"></script>
   <script src="public/js/common_functions.js"></script>
   <script src="public/js/sidebar_actions.js"></script>
   <script src="public/js/submits.js"></script>
   <script src="public/js/forms_validate.js"></script>
+  <script src="public/js/load_domain_list.js"></script>
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const sample = urlParams.get('sample');

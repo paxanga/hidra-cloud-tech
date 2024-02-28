@@ -1,4 +1,3 @@
-const md5 = require('md5');
 const BaseApi = require('../base_api');
 const yaml = require('js-yaml');
 md5hash = require('md5');
@@ -6,7 +5,6 @@ class ApiAddChecks extends BaseApi {
 
     async handleRequest(req) {
         try {
-            var body = req.body;
             req.body.description = req.body.name;
 
             var checkType = req.body.checkType;
@@ -58,7 +56,7 @@ class ApiAddChecks extends BaseApi {
     }
 
     getRoute() {
-        return "/api/add/checks";
+        return "/api/checks/add";
     }
 }
 

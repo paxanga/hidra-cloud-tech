@@ -5,6 +5,7 @@ const HttpRequest = require('../modules/HttpRequest');
 const grafanaAuth = require('../modules/grafanaAuth');
 const Docker = require('dockerode');
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
+const yaml = require('js-yaml');
 
 const PATH_PROD = '/etc/hidra_exporter/data/'
 // DEVELOP BELOW
@@ -312,6 +313,57 @@ class BaseApi {
             }
         } catch (err) {
             return { 'message': 'Error comprobando si el fichero existe', 'error': err };
+        }
+    }
+
+    getAllCheckFiles() {
+        console.log("Getting all check files")
+        try {
+            const files = fs.readdirSync(PATH_PROD);
+            return Promise.resolve(files);
+        } catch (err) {
+            return Promise.reject({ 'message': 'Error al obtener los ficheros', 'error': err });
+        }
+    }
+
+    readFile(filename) {
+        console.log("Reading file: " + PATH_PROD + filename)
+        try {
+            var data = fs.readFileSync(PATH_PROD + filename, 'utf8');
+            data += `filename: ${filename}\n`;
+            return Promise.resolve(data);
+        }
+        catch (err) {
+            return Promise.reject({ 'message': 'Error al leer el fichero', 'error': err });
+        }
+    }
+
+    yamlToJson(YAMLcontent) {
+        try {
+            return Promise.resolve(yaml.load(YAMLcontent));
+        } catch (err) {
+            return Promise.reject({ 'message': 'Error al convertir el fichero a JSON', 'error': err });
+        }
+    }
+
+    deleteCheckFile(filename) {
+        console.log("Deleting file: " + PATH_PROD + filename)
+        try {
+            fs.unlinkSync(PATH_PROD + filename);
+            return Promise.resolve({ 'message': 'Fichero eliminado', 'filename': filename });
+        } catch (err) {
+            return Promise.reject({ 'message': 'Error al eliminar el fichero', 'error': err });
+        }
+    }
+
+    renameFile(filename, newFilename) {
+        console.log("Renaming file: " + PATH_PROD + filename)
+        try {
+            fs.renameSync(PATH_PROD + filename, PATH_PROD + newFilename);
+            return Promise.resolve({ 'message': 'Fichero renombrado', 'filename': filename, 'newFilename': newFilename });
+        }
+        catch (err) {
+            return Promise.reject({ 'message': 'Error al renombrar el fichero', 'error': err });
         }
     }
 
