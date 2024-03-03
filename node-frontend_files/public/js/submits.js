@@ -29,7 +29,7 @@ $(document).ready(function () {
             url: '/api/checks/add',
             data: checkData,
             success: function (data) {
-                _generateToast('Check añadido correctamente', '', 'El check se ha añadido correctamente.', 'success');
+                _generateToast('Check añadido correctamente', '', 'El check se ha añadido correctamente. (podría tardar unos minutos en aparecer en la lista)', 'success');
                 _loadDashboard();
             },
             error: function (data) {

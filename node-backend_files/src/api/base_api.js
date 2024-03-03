@@ -16,6 +16,12 @@ class BaseApi {
         this.app.express[this.getMethod()](this.getRoute(), this.prehandle.bind(this));
         this.HttpRequest = new HttpRequest();
         this.grafanaAuth = new grafanaAuth();
+        this.grafanaHeaders = {
+            'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
+            'accept': 'application/json',
+            'Content-Type': 'application/json',
+            'X-Disable-Provenance': 'true'
+        };
     }
 
     verifyRequest(req) {
@@ -98,11 +104,7 @@ class BaseApi {
                     `${Config['grafana']['url']}:${Config['grafana']['port']}/api/datasources/proxy/${datasource.id}/api/v1/query?query=${encodeURIComponent(query)}`,
                     'GET',
                     null,
-                    {
-                        'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
-                        'accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    }
+                    this.grafanaHeaders
                 );
             });
         } catch (error) {
@@ -117,11 +119,7 @@ class BaseApi {
                 `${Config['grafana']['url']}:${Config['grafana']['port']}/api/search?query=${name}`,
                 'GET',
                 null,
-                {
-                    'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
+                this.grafanaHeaders
             );
         } catch (error) {
             console.error('Error querying Grafana:', error);
@@ -136,11 +134,7 @@ class BaseApi {
                 `${Config['grafana']['url']}:${Config['grafana']['port']}/api/datasources`,
                 'GET',
                 null,
-                {
-                    'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
+                this.grafanaHeaders
             ).then((datasource) => {
                 if (datasource.length == 0) {
                     return Promise.reject({ 'message': 'No datasource found' });
@@ -184,11 +178,7 @@ class BaseApi {
                     `${Config['grafana']['url']}:${Config['grafana']['port']}/api/dashboards/db`,
                     'POST',
                     template,
-                    {
-                        'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
-                        'accept': 'application/json',
-                        'Content-Type': 'application/json'
-                    },
+                    this.grafanaHeaders
                 );
             }).catch(error => {
                 console.error('Error obtaining datasource:', error);
@@ -212,11 +202,7 @@ class BaseApi {
                     'login': 'viewer',
                     'password': Config.grafana.adminPassword
                 }),
-                {
-                    'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+                this.grafanaHeaders
             );
         } catch (error) {
             console.error('Error creating viewer user:', error);
@@ -230,11 +216,7 @@ class BaseApi {
                 `${Config['grafana']['url']}:${Config['grafana']['port']}/api/users/lookup?loginOrEmail=viewer@localhost`,
                 'GET',
                 null,
-                {
-                    'Authorization': this.CalculateBasicAuthHeader('admin', Config['grafana']['adminPassword']),
-                    'accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
+                this.grafanaHeaders
             );
         } catch (error) {
             console.error('Error checking if user exists:', error);
@@ -242,6 +224,292 @@ class BaseApi {
         }
     }
 
+    getAllContactsPoint() {
+        try {
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/v1/provisioning/contact-points`,
+                'GET',
+                null,
+                this.grafanaHeaders
+            );
+        } catch (error) {
+            console.error('Error checking if contact point exists:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    createContactPoint(type) {
+        var body;
+        switch (type) {
+            case 'telegram':
+                body = {
+                    'name': 'telegram',
+                    'type': 'telegram',
+                    'settings': {
+                        'bottoken': Config.telegram.botToken,
+                        'chatId': Config.telegram.chatId
+                    },
+                    uid: 'telegram'
+                };
+                break;
+            default:
+                return Promise.reject({ 'message': 'Invalid type' });
+        }
+        try {
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/v1/provisioning/contact-points`,
+                'POST',
+                JSON.stringify(body),
+                this.grafanaHeaders
+            );
+        } catch (error) {
+            console.error('Error creating contact point:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    getAlerts() {
+        try {
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/v1/provisioning/alert-rules`,
+                'GET',
+                null,
+                this.grafanaHeaders
+            );
+        } catch (error) {
+            console.error('Error getting alerts:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    getNotificationPolicies() {
+        try {
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/v1/provisioning/policies`,
+                'GET',
+                null,
+                this.grafanaHeaders
+            );
+        } catch (error) {
+            console.error('Error getting notification policies:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    createNotificationPolicy(json) {
+        try {
+            return this.getAllContactsPoint().then(async (contacts) => {
+                for (var i = 0; i < contacts.length; i++) {
+                    if (contacts[i].type === 'telegram') {
+                        json.receiver = 'telegram'
+                        break;
+                    }
+                }
+                return this.HttpRequest.makeRequest(
+                    `${Config['grafana']['url']}:${Config['grafana']['port']}/api/v1/provisioning/policies`,
+                    'PUT',
+                    JSON.stringify(json),
+                    this.grafanaHeaders
+                );
+            });
+        } catch (error) {
+            console.error('Error creating notification policy:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    getFolders() {
+        try {
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/folders`,
+                'GET',
+                null,
+                this.grafanaHeaders
+            );
+        } catch (error) {
+            console.error('Error getting folders:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    createFolder() {
+        try {
+            var body = {
+                title: "default",
+                uid: "default"
+            };
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/folders`,
+                'POST',
+                JSON.stringify(body),
+                this.grafanaHeaders
+            );
+        } catch (error) {
+            console.error('Error creating folder:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    createAlert() {
+        try {
+            var body = {
+                title: "default",
+                condition: "C",
+                data: [
+                    {
+                        refId: "A",
+                        queryType: "",
+                        relativeTimeRange: {
+                            from: 300,
+                            to: 0
+                        },
+                        datasourceUid: "XXXXXX",
+                        model: {
+                            editorMode: "code",
+                            expr: "hidra_sample_status",
+                            hide: false,
+                            instant: true,
+                            intervalMs: 1000,
+                            maxDataPoints: 43200,
+                            range: false,
+                            refId: "A"
+                        }
+                    },
+                    {
+                        refId: "B",
+                        queryType: "",
+                        relativeTimeRange: {
+                            from: 300,
+                            to: 0
+                        },
+                        datasourceUid: "__expr__",
+                        model: {
+                            conditions: [
+                                {
+                                    evaluator: {
+                                        params: [],
+                                        type: "gt"
+                                    },
+                                    operator: {
+                                        type: "and"
+                                    },
+                                    query: {
+                                        params: [
+                                            "B"
+                                        ]
+                                    },
+                                    reducer: {
+                                        params: [],
+                                        type: "last"
+                                    },
+                                    type: "query"
+                                }
+                            ],
+                            datasource: {
+                                type: "__expr__",
+                                uid: "__expr__"
+                            },
+                            expression: "A",
+                            hide: false,
+                            intervalMs: 1000,
+                            maxDataPoints: 43200,
+                            reducer: "last",
+                            refId: "B",
+                            type: "reduce"
+                        }
+                    },
+                    {
+                        refId: "C",
+                        queryType: "",
+                        relativeTimeRange: {
+                            from: 300,
+                            to: 0
+                        },
+                        datasourceUid: "__expr__",
+                        model: {
+                            conditions: [
+                                {
+                                    evaluator: {
+                                        params: [
+                                            1
+                                        ],
+                                        type: "lt"
+                                    },
+                                    operator: {
+                                        type: "and"
+                                    },
+                                    query: {
+                                        params: [
+                                            "C"
+                                        ]
+                                    },
+                                    reducer: {
+                                        params: [],
+                                        type: "last"
+                                    },
+                                    type: "query"
+                                }
+                            ],
+                            datasource: {
+                                type: "__expr__",
+                                uid: "__expr__"
+                            },
+                            expression: "B",
+                            hide: false,
+                            intervalMs: 1000,
+                            maxDataPoints: 43200,
+                            refId: "C",
+                            type: "threshold"
+                        }
+                    }
+                ],
+                execErrState: "Error",
+                folderUID: "default",
+                for: "2m",
+                noDataState: "NoData",
+                orgID: 1,
+                ruleGroup: "eval_group_1",
+            };
+            return this.getFolders().then(async (folders) => {
+                for (var i = 0; i < folders.length; i++) {
+                    if (folders[i].title == 'default') {
+                        return Promise.resolve(folders[i].uid);
+                    }
+                }
+                return this.createFolder().then((folder) => {
+                    return folder.uid;
+                });
+            }).then((folderUID) => {
+                body.folderUID = folderUID;
+                return this.getDataSOurce().then(async (datasource) => {
+                    body.data[0].datasourceUid = datasource.uid;
+                    return this.HttpRequest.makeRequest(
+                        `${Config['grafana']['url']}:${Config['grafana']['port']}/api/v1/provisioning/alert-rules`,
+                        'POST',
+                        JSON.stringify(body),
+                        this.grafanaHeaders
+                    );
+                });
+            });
+        } catch (error) {
+            console.error('Error creating alert:', error);
+            return Promise.reject(error);
+        }
+    }
+
+    getActualAlerts() {
+        try {
+            return this.HttpRequest.makeRequest(
+                `${Config['grafana']['url']}:${Config['grafana']['port']}/api/prometheus/grafana/api/v1/rules?limit_alerts=1000`,
+                'GET',
+                null,
+                this.grafanaHeaders
+            );
+        } catch (error) {
+            console.error('Error getting actual alerts:', error);
+            return Promise.reject(error);
+        }
+    }
 
     CalculateBasicAuthHeader(username, password) {
         return 'Basic ' + Buffer.from(username + ':' + password).toString('base64');

@@ -29,5 +29,9 @@ module.exports = {
         'url': 'http://grafana',
         'adminPassword': getEnv('grafanaApiPassword', 'admin'),
         'port': 3000,
-    }
+    },
+    'telegram': {
+        'botToken': getEnv('telegram_bot_token', '1234567890:ABCdefGhIjKlMnOpQrStUvWxYz1234567890'),
+        'chatId': getEnv('telegram_chat_id', '-1234567890'),
+    },
 };

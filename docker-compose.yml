@@ -68,6 +68,8 @@ services:
       - HIDRA_AUTH_BASIC_PASSWORD=${HIDRA_AUTH_BASIC_PASSWORD}
       - grafanaApiPassword=${HIDRA_AUTH_BASIC_PASSWORD}
       - users_and_passwords=${USERS_AND_PASSWORDS}
+      - telegram_bot_token=${TELEGRAM_BOT_TOKEN}
+      - telegram_chat_id=${TELEGRAM_CHAT_ID}
     volumes:
       - ./node-backend_files:/app
       - hidra_data:/etc/hidra_exporter/data

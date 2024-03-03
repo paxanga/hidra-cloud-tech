@@ -1,5 +1,10 @@
 1. mkdir data && mkdir data/hidra_data && mkdir data/prometheus_data && mkdir data/grafana_data && mkdir data/certs && touch .env
-2. add in .env HIDRA_AUTH_BASIC_PASSWORD=xxxxx and USERS_AND_PASSWORDS={"email@email.es":"xxxxx"}
+2. add in .env 
+    - HIDRA_AUTH_BASIC_PASSWORD=xxxxx (password for grafana, hidra auth basic and prometheus auth basic)
+    - USERS_AND_PASSWORDS={"email@email.es":"xxxxx"} (users and paswords from app)
+    - TELEGRAM_BOT_TOKEN=1234567890:ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 (telegram bot token for alerts)
+    - TELEGRAM_CHAT_ID=-1234567890 (telegram chat ID for alerts)
+
 ```
 sudo apt update
 sudo apt install apt-transport-https ca-certificates curl software-properties-common

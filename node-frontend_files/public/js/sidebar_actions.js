@@ -10,6 +10,9 @@ $(document).ready(function () {
     $(document).on('click', '#sidebar-domain-list', function () {
         _loadDomainList();
     });
+    $(document).on('click', '#sidebar-alerts', function () {
+        _loadAlerts();
+    });
 
 });
 
@@ -51,4 +54,11 @@ async function _loadDomainList() {
     _markActive('#sidebar-domain-list');
     $("#content-main").load("../public/content/domains.ejs");
     await _loadChecksTable();
+}
+
+async function _loadAlerts() {
+    _showPreloader(2);
+    _markActive('#sidebar-alerts');
+    $("#content-main").load("../public/content/alerts.ejs");
+    await _loadAlertsTable();
 }

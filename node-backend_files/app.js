@@ -13,6 +13,7 @@ const ApiUserGetToken = require('./src/api/user/getToken');
 const ApiGetChecksTable = require('./src/api/checks/checksTable');
 const ApiDeleteCheck = require('./src/api/checks/delete');
 const ApiEditCheck = require('./src/api/checks/edit');
+const ApiGetAlertsTable = require('./src/api/alerts/alertsTable');
 
 class App {
 
@@ -71,6 +72,7 @@ class App {
         new ApiGetChecksTable(this);
         new ApiDeleteCheck(this);
         new ApiEditCheck(this);
+        new ApiGetAlertsTable(this);
     }
 
     async startWebServer() {

@@ -114,3 +114,19 @@ function _showPreloader(seconds) {
         $('.preloader .animation__wobble').css('display', 'none');
     });
 }
+
+function getRandomColor() {
+    var colors = [
+        '#28a745', // green
+        '#dc3545', // red
+        '#007bff', // blue
+        '#ffc107', // yellow
+        '#17a2b8', // teal
+        '#6610f2', // purple
+        '#fd7e14', // orange
+        '#6f42c1', // violet
+        '#20c997', // cyan
+        '#e83e8c'  // pink
+    ];
+    return colors[Math.floor(Math.random() * colors.length)];
+}

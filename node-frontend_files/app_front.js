@@ -152,6 +152,22 @@ app.post('/api/checks/delete', async (req, res) => {
   }
 });
 
+app.get('/api/alerts/alertsTable', async (req, res) => {
+  try {
+    http_req.makeRequest(
+      "http://node-backend:3001/api/alerts/alertsTable",
+      'GET',
+      null
+    ).then((response) => {
+      res.send(response);
+    }).catch((error) => {
+      res.status(400).send(error.response.data);
+    });
+  } catch (error) {
+    return Promise.reject(error);
+  }
+});
+
 app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Configurar la carpeta pública para servir archivos estáticos
